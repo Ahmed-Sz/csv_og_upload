@@ -1,0 +1,6 @@
+name: Upload csv for OG
+type: module
+description: 'Upload csv for OG table'
+package: custom
+core_version_requirement: ^8.7.7 || ^9
+version: VERSION

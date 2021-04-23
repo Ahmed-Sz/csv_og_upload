@@ -1,0 +1,42 @@
+csv_og_upload.form:
+ path: '/upload/ogtable'
+ defaults:
+   _title: 'Upload CSV form'
+   _form: '\Drupal\csv_og_upload\Form\OgForm'
+ requirements:
+   _permission: 'access content'
+csv_og_user_upload.form:
+ path: '/upload/ogtable/user'
+ defaults:
+   _title: 'Upload CSV form'
+   _form: '\Drupal\csv_og_upload\Form\OgUserForm'
+ requirements:
+   _permission: 'access content'
+group_upload.form:
+ path: '/upload/group'
+ defaults:
+   _title: 'Upload CSV form'
+   _form: '\Drupal\csv_og_upload\Form\GroupForm'
+ requirements:
+   _permission: 'access content'
+group_upload_user.form:
+ path: '/upload/groupuser'
+ defaults:
+   _title: 'Upload CSV form User'
+   _form: '\Drupal\csv_og_upload\Form\GroupMemberForm'
+ requirements:
+   _permission: 'access content'
+group_upload_content.form:
+ path: '/upload/groupcontent'
+ defaults:
+   _title: 'Upload CSV form content'
+   _form: '\Drupal\csv_og_upload\Form\GroupContentForm'
+ requirements:
+   _permission: 'access content'
+csv_og_upload.update:
+  path: '/upload/datefieldtransfer'
+  defaults:
+    _controller: '\Drupal\csv_og_upload\Controller\DateFieldTransfer::update'
+    _title: 'Date Field Transfer'
+  requirements:
+    _permission: 'access content'
