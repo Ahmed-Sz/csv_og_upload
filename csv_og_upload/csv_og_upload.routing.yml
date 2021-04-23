@@ -33,10 +33,3 @@ group_upload_content.form:
    _form: '\Drupal\csv_og_upload\Form\GroupContentForm'
  requirements:
    _permission: 'access content'
-csv_og_upload.update:
-  path: '/upload/datefieldtransfer'
-  defaults:
-    _controller: '\Drupal\csv_og_upload\Controller\DateFieldTransfer::update'
-    _title: 'Date Field Transfer'
-  requirements:
-    _permission: 'access content'
