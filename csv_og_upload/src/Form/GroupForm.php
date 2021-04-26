@@ -5,13 +5,9 @@
  */
 namespace Drupal\csv_og_upload\Form;
 
-
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\file\Entity\File;
-
-
-
 
 class GroupForm extends FormBase {
   /**
@@ -44,7 +40,6 @@ class GroupForm extends FormBase {
     return $form;
   }
 
-
  /**
    * {@inheritdoc}
    */
@@ -56,6 +51,7 @@ class GroupForm extends FormBase {
     \Drupal::database()->truncate('group_content')->execute();
     /* Fetch the array of the file stored temporarily in database */
     $csv_file = $form_state->getValue('csv_upload');
+    
     /* Load the object of the file by it's fid */
     $file = File::load( $csv_file[0] );
 
@@ -65,57 +61,45 @@ class GroupForm extends FormBase {
     /* Save the file in database */
     $file->save();
 
-    // You can use any sort of function to process your data. The goal is to get each 'row' of data into an array
+    // You can use any sort of function to process your data. 
+    //The goal is to get each 'row' of data into an array
     // If you need to work on how data is extracted, process it here.
 		$data = $this->csvtoarray($file->getFileUri(), ',');
 		$connection = \Drupal::database();
-	//	print("<pre>");
-    //	print_r($data);exit();
     $uuid_service = \Drupal::service('uuid');
     $sl_no = 1;
     foreach($data as $row) {
-        $date = date_create($row['created']);
-        $date_changed = date_create($row['changed']);
-//			print_r($row['Entity id']);exit();
-			$result = $connection->insert('groups')
+      $date = date_create($row['created']);
+      $date_changed = date_create($row['changed']);
+			$connection->insert('groups')
 			->fields([
-          'type' => str_replace(' ', '_', strtolower(substr($row['label'],0,22))),
-          // 'id' =>  $sl_no,
-          'uuid' => $uuid_service->generate(),
-          'langcode' => 'en',
-          ])
-          ->execute();
+        'type' => str_replace(' ', '_', strtolower(substr($row['label'],0,22))),
+        'uuid' => $uuid_service->generate(),
+        'langcode' => 'en',
+        ])
+        ->execute();
 
-          // Group field data
-          $result1 = $connection->insert('groups_field_data')
-          ->fields([
-          'label' =>  $row['label'],
-          'type' =>  str_replace(' ', '_', strtolower(substr($row['label'],0,22))),
-          'id' =>  $sl_no,
-          'uid' => $row['uid'],
-          'created' => date_timestamp_get($date),
-          'changed' => date_timestamp_get($date_changed),
-          'default_langcode' => 1,
-          'langcode' => 'en',
-          ])
-          ->execute();
-          $sl_no = $sl_no +1;
+      // Group field data
+      $connection->insert('groups_field_data')
+      ->fields([
+        'label' =>  $row['label'],
+        'type' =>  str_replace(' ', '_', strtolower(substr($row['label'],0,22))),
+        'id' =>  $sl_no,
+        'uid' => $row['uid'],
+        'created' => date_timestamp_get($date),
+        'changed' => date_timestamp_get($date_changed),
+        'default_langcode' => 1,
+        'langcode' => 'en',
+        ])
+        ->execute();
+      //Increase the id of the group after addition of each group
+      $sl_no = $sl_no +1;
     }
-
-    // $batch = array(
-    //   'title' => t('Importing Data...'),
-    //   'operations' => $operations,
-    //   'init_message' => t('Import is starting.'),
-    //   'finished' => '\Drupal\IMPORT_EXAMPLE\addImportContent::addImportContentItemCallback',
-    // );
-    // batch_set($batch);
-		
 	}
-
-
-
+ 
+  //Function to convert csv to array format
 	public function csvtoarray($filename='', $delimiter){
-
+    //Check for the existence of the file
     if(!file_exists($filename) || !is_readable($filename)) return FALSE;
     $header = NULL;
     $data = array();
@@ -131,11 +115,7 @@ class GroupForm extends FormBase {
       }
       fclose($handle);
     }
-
     return $data;
   }
-
-
-
 
 }

@@ -1,18 +1,5 @@
-csv_og_upload.form:
- path: '/upload/ogtable'
- defaults:
-   _title: 'Upload CSV form'
-   _form: '\Drupal\csv_og_upload\Form\OgForm'
- requirements:
-   _permission: 'access content'
-csv_og_user_upload.form:
- path: '/upload/ogtable/user'
- defaults:
-   _title: 'Upload CSV form'
-   _form: '\Drupal\csv_og_upload\Form\OgUserForm'
- requirements:
-   _permission: 'access content'
 group_upload.form:
+#path to upload the group csv file
  path: '/upload/group'
  defaults:
    _title: 'Upload CSV form'
@@ -20,6 +7,7 @@ group_upload.form:
  requirements:
    _permission: 'access content'
 group_upload_user.form:
+#path to upload the group user csv file
  path: '/upload/groupuser'
  defaults:
    _title: 'Upload CSV form User'
@@ -27,6 +15,7 @@ group_upload_user.form:
  requirements:
    _permission: 'access content'
 group_upload_content.form:
+#path to upload the group content csv file
  path: '/upload/groupcontent'
  defaults:
    _title: 'Upload CSV form content'
